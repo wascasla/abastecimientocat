@@ -5,21 +5,26 @@ import Footer from "./components/Footer";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Comercios from "./components/Comercios";
 
+import { Provider } from "react-redux";
+import store from "./store";
+
 function App() {
   return (
     <Router>
-      <Header />
-      <main role="main">
-        <div style={{ height: 600 }}>
-          <div className="region region-content">
-            <div className="block block-system clearfix"></div>
+      <Provider store={store}>
+        <Header />
+        <main role="main">
+          <div style={{ height: 1000 }}>
+            <div className="region region-content">
+              <div className="block block-system clearfix"></div>
+            </div>
+            <Switch>
+              <Route exact path="/" component={Comercios} />
+            </Switch>
           </div>
-          <Switch>
-            <Route exact path="/" component={Comercios} />
-          </Switch>
-        </div>
-      </main>
-      <Footer />
+        </main>
+        <Footer />
+      </Provider>
     </Router>
   );
 }

@@ -23,7 +23,7 @@ const Header = () => {
                 className="btn btn-login btn-link visible-xs"
                 aria-label="Ingresar a Mi Argentina"
               >
-                <i class="icono-arg-mi-argentina"></i>
+                <i className="icono-arg-mi-argentina"></i>
               </a>
             </div>
             <a

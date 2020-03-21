@@ -1,45 +1,62 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
+
+//Redux
+import { useSelector, useDispatch } from "react-redux";
+import { obtenerComerciosAction } from "../actions/comerciosActions";
+import Comercio from "./Comercio";
 
 const Comercios = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    //consultar la api
+    const cargarComercios = () => dispatch(obtenerComerciosAction());
+    cargarComercios();
+  }, []);
+
+  //obtener el state
+  const comercios = useSelector(state => state.comercios.comercios);
+  console.log(comercios);
+
   return (
     <Fragment>
       <section>
-        <article class="container content_format">
-          <div class="col-md-8 col-md-offset-2">
-            <div class="panel-pane pane-titulo">
-              <div class="pane-content">
-                <h1 class="activities-sidbar">
+        <article className="container content_format">
+          <div className="col-md-8 col-md-offset-2">
+            <div className="panel-pane pane-titulo">
+              <div className="pane-content">
+                <h1 className="activities-sidbar">
                   Listado de Comercios para abastecimiento
                 </h1>
               </div>
             </div>
-            <div class="panel-separator"></div>
-            <div class="panel-pane pane-entity-field pane-node-body">
-              <div class="pane-content">
-                <div class="field field-name-body field-type-text-with-summary field-label-hidden">
-                  <div class="field-items">
+            <div className="panel-separator"></div>
+            <div className="panel-pane pane-entity-field pane-node-body">
+              <div className="pane-content">
+                <div className="field field-name-body field-type-text-with-summary field-label-hidden">
+                  <div className="field-items">
                     <div
-                      class="field-item even"
+                      className="field-item even"
                       property="content:encoded"
                     ></div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="panel-separator"></div>
-            <div class="panel-pane pane-redes-sociales">
-              <div class="pane-content">
-                <div class="section-actions social-share">
+            <div className="panel-separator"></div>
+            <div className="panel-pane pane-redes-sociales">
+              <div className="pane-content">
+                <div className="section-actions social-share">
                   <p>Compartir en redes sociales</p>
-                  <div class="item-list">
-                    <ul class="list-inline">
-                      <li class="first">
+                  <div className="item-list">
+                    <ul className="list-inline">
+                      <li className="first">
                         <a
                           href="http://www.facebook.com/sharer/sharer.php?u=https://www.argentina.gob.ar/precios-cuidados/listado-de-productos&amp;title=Listado de productos de Precios Cuidados"
                           target="_blank"
                         >
-                          <span class="sr-only">Compartir en Facebook</span>
-                          <i class="fa fa-facebook" aria-hidden="true"></i>
+                          <span className="sr-only">Compartir en Facebook</span>
+                          <i className="fa fa-facebook" aria-hidden="true"></i>
                         </a>
                       </li>
                       <li>
@@ -47,8 +64,8 @@ const Comercios = () => {
                           href="https://twitter.com/share?url=https://www.argentina.gob.ar/precios-cuidados/listado-de-productos&amp;text=Listado de productos de Precios Cuidados"
                           target="_blank"
                         >
-                          <span class="sr-only">Compartir en Twitter</span>
-                          <i class="fa fa-twitter" aria-hidden="true"></i>
+                          <span className="sr-only">Compartir en Twitter</span>
+                          <i className="fa fa-twitter" aria-hidden="true"></i>
                         </a>
                       </li>
                       <li>
@@ -56,17 +73,17 @@ const Comercios = () => {
                           href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.argentina.gob.ar/precios-cuidados/listado-de-productos"
                           target="_blank"
                         >
-                          <span class="sr-only">Compartir en Linkedin</span>
-                          <i class="fa fa-linkedin" aria-hidden="true"></i>
+                          <span className="sr-only">Compartir en Linkedin</span>
+                          <i className="fa fa-linkedin" aria-hidden="true"></i>
                         </a>
                       </li>
-                      <li class="last">
+                      <li className="last">
                         <a
                           href="https://web.whatsapp.com/send?text=https://www.argentina.gob.ar/precios-cuidados/listado-de-productos"
                           target="_blank"
                         >
-                          <span class="sr-only">Compartir en Whatsapp</span>
-                          <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                          <span className="sr-only">Compartir en Whatsapp</span>
+                          <i className="fa fa-whatsapp" aria-hidden="true"></i>
                         </a>
                       </li>
                     </ul>
@@ -74,18 +91,18 @@ const Comercios = () => {
                 </div>
               </div>
             </div>
-            <div class="panel-separator"></div>
-            <div class="panel-pane pane-separador">
-              <div class="pane-content">
+            <div className="panel-separator"></div>
+            <div className="panel-pane pane-separador">
+              <div className="pane-content">
                 <hr></hr>
               </div>
             </div>
-            <div class="panel-separator"></div>
-            <div class="panel-pane pane-entity-field pane-node-body">
-              <div class="pane-content">
-                <div class="field field-name-body field-type-text-with-summary field-label-hidden">
-                  <div class="field-items">
-                    <div class="field-item even" property="content:encoded">
+            <div className="panel-separator"></div>
+            <div className="panel-pane pane-entity-field pane-node-body">
+              <div className="pane-content">
+                <div className="field field-name-body field-type-text-with-summary field-label-hidden">
+                  <div className="field-items">
+                    <div className="field-item even" property="content:encoded">
                       <h5>Conocé los comercios para hacer tus compras</h5>
                     </div>
                   </div>
@@ -139,7 +156,30 @@ const Comercios = () => {
                       <div className="col-sm-12">cantidad registros</div>
                     </div>
                     <div className="row">
-                      <div className="col-sm-12">tabla</div>
+                      <div className="col-sm-12">
+                        <table className="table table-responsive-poncho">
+                          <thead>
+                            <tr>
+                                  <th>Nombre</th>
+                                  <th>Rubro</th>
+                                  <th>Dirección</th>
+                                  <th>Localidad</th>
+                                  <th>Delivery</th>
+                                  <th>Telefono</th>
+                                  <th>DeliveryCatamarca</th>
+                                 <th>PedidosYa</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                             
+                            {comercios.length === 0
+                              ? "No hay Comercios"
+                              : comercios.map(comercio => (
+                                  <Comercio comercio />
+                                ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
