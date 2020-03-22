@@ -14,7 +14,7 @@ function App() {
       <Provider store={store}>
         <Header />
         <main role="main">
-          <div style={{ height: 1000 }}>
+          <div style={{ height: 4000 }}>
             <div className="region region-content">
               <div className="block block-system clearfix"></div>
             </div>

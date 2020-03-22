@@ -1,22 +1,85 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 
 //Redux
 import { useSelector, useDispatch } from "react-redux";
 import { obtenerComerciosAction } from "../actions/comerciosActions";
 import Comercio from "./Comercio";
+import axios from "axios";
 
 const Comercios = () => {
+  const [rubros, setRubros] = useState([]);
+
+  const [localidades, setLocalidades] = useState([]);
+
+  //const [delivery, setDelivery] = useState(0);
+
+  const [busqueda, guardarBusqueda] = useState({
+    nombre: "",
+    rubroid: 0,
+    ubicacionid: 0,
+    delivery: 1
+  });
+
+  const { nombre, rubroid, ubicacionid, delivery } = busqueda;
+
+  //funcion a cada input para leer su contenido
+  const actualizarStateBusqueda = e => {
+    guardarBusqueda({
+      ...busqueda,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const [rubroSeleccionado, setrubroSeleccionado] = useState();
+  const [ubicacionSeleccionada, setubicacionSeleccionada] = useState();
+  //const [nombre, setNombre] = useState();
+
+  const consultarRubros = async () => {
+    const url = `https://emergencia-sanitaria.catamarca.gob.ar/api/v1/comercio/rubros_asignados/`;
+    const resultado = await axios(url);
+    setRubros(resultado.data);
+    //console.log(resultado.data);
+  };
+
+  const consultarLocalidades = async () => {
+    const url = `https://emergencia-sanitaria.catamarca.gob.ar/api/v1/comercio/ubicaciones_asignadas/`;
+    const resultado = await axios(url);
+    setLocalidades(resultado.data);
+    console.log(resultado.data);
+  };
+
+  //rubros y ubicaciones
+  useEffect(() => {
+    //consultar la api
+    //const cargarComercios = () => dispatch(obtenerComerciosAction());
+
+    consultarLocalidades();
+  }, []);
+
+  useEffect(() => {
+    //consultar la api
+    //const cargarComercios = () => dispatch(obtenerComerciosAction());
+    consultarRubros();
+  }, []);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     //consultar la api
     const cargarComercios = () => dispatch(obtenerComerciosAction());
-    cargarComercios();
-  }, []);
+    //cargarComercios();
+  }, [busqueda]);
 
   //obtener el state
   const comercios = useSelector(state => state.comercios.comercios);
-  console.log(comercios);
+  //console.log(comercios);
+
+  // consultar api de comercios
+  const buscarInformacion = e => {
+    e.preventDefault();
+    const cargarComercios = () => dispatch(obtenerComerciosAction(busqueda));
+    cargarComercios();
+  };
 
   return (
     <Fragment>
@@ -120,19 +183,42 @@ const Comercios = () => {
             <div className="pane-content">
               <div className="container">
                 <div className="row">
-                  <form>
+                  <form onSubmit={buscarInformacion}>
                     <div className="col-sm-12 col-md-8">
                       <div className="row">
                         <div className="col-sm-6">
                           <div className="form-group">
                             <label>Localidad</label>
-                            <select className="form-control"></select>
+                            <select
+                              name="ubicacionid"
+                              className="form-control"
+                              value={ubicacionSeleccionada}
+                              onChange={actualizarStateBusqueda}
+                            >
+                              {localidades.map(localidad => (
+                                <option value={localidad.ubicacion_id}>
+                                  {localidad.ubicacion_nombre}
+                                </option>
+                              ))}
+                            </select>
                           </div>
                         </div>
                         <div className="col-sm-6">
                           <div className="form-group">
                             <label>Rubro</label>
-                            <select className="form-control"></select>
+                            <select
+                              name="rubroid"
+                              className="form-control"
+                              value={rubroSeleccionado}
+                              onChange={actualizarStateBusqueda}
+                            >
+                              <option>Selecciona una rubro</option>
+                              {rubros.map(rubro => (
+                                <option value={rubro.rubro_id}>
+                                  {rubro.rubro_nombre}
+                                </option>
+                              ))}
+                            </select>
                           </div>
                         </div>
                       </div>
@@ -144,7 +230,26 @@ const Comercios = () => {
                           type="text"
                           className="form-control"
                           name="nombre"
+                          value={nombre}
+                          onChange={actualizarStateBusqueda}
                         ></input>
+                      </div>
+                      <div className="form-group">
+                        <label>Delivery</label>
+                        <select
+                          name="delivery"
+                          className="form-control"
+                          value={delivery}
+                          onChange={actualizarStateBusqueda}
+                        >
+                          <option value="1">Si</option>
+                          <option value="0">NO</option>
+                        </select>
+                      </div>
+                      <div className="form-group">
+                        <button className="btn btn-default" type="submit">
+                          Filtrar
+                        </button>
                       </div>
                     </div>
                   </form>
@@ -157,28 +262,30 @@ const Comercios = () => {
                     </div>
                     <div className="row">
                       <div className="col-sm-12">
-                        <table className="table table-responsive-poncho">
-                          <thead>
-                            <tr>
-                                  <th>Nombre</th>
-                                  <th>Rubro</th>
-                                  <th>Dirección</th>
-                                  <th>Localidad</th>
-                                  <th>Delivery</th>
-                                  <th>Telefono</th>
-                                  <th>DeliveryCatamarca</th>
-                                 <th>PedidosYa</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                             
-                            {comercios.length === 0
-                              ? "No hay Comercios"
-                              : comercios.map(comercio => (
-                                  <Comercio comercio />
-                                ))}
-                          </tbody>
-                        </table>
+                        <div className="table-responsive">
+                          <table id="example" className="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th>Nombre</th>
+                                <th>Dirección</th>
+                                <th>Delivery</th>
+                                <th>Telefono</th>
+                                <th>DeliveryCatamarca</th>
+                                <th>PedidosYa</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {comercios.length === 0
+                                ? "No hay Comercios"
+                                : comercios.map(comercio => (
+                                    <Comercio
+                                      key={comercio.attributes.id}
+                                      comercio={comercio}
+                                    />
+                                  ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -5,19 +5,30 @@ import {
 } from "../types";
 
 import axios from "axios";
+const urlBase = `https://emergencia-sanitaria.catamarca.gob.ar/api/v1/comercio/`;
+let url = "";
 
 //funciones que utiliza la vista
 
 //funcion que descarga los productos d ela base de datos
-export function obtenerComerciosAction() {
+export function obtenerComerciosAction(datos) {
   return async dispatch => {
     dispatch(descargarProductos());
 
-    const url = `https://emergencia-sanitaria.catamarca.gob.ar/api/v1/comercio/`;
+    const urlDelivery = urlBase + `?usa_delivery=true`;
+
+    if (datos.delivery === 1) {
+      url = urlBase + `?usa_delivery=true`;
+    } else {
+      url = urlBase;
+    }
 
     try {
-      const respuesta = await axios(url);
-      console.log(respuesta.data.data);
+      const respuesta = await axios.get(url);
+
+      //console.log(respuesta.data.data);
+      const parse = respuesta.data;
+      //console.log(parse);
       dispatch(descargaComerciosExitosa(respuesta.data.data));
     } catch (error) {
       dispatch(descargaComerciosError());
