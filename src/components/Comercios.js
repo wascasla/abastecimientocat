@@ -17,7 +17,7 @@ const Comercios = () => {
     nombre: "",
     rubroid: 0,
     ubicacionid: 0,
-    delivery: 1
+    delivery: 2
   });
 
   const { nombre, rubroid, ubicacionid, delivery } = busqueda;
@@ -195,6 +195,7 @@ const Comercios = () => {
                               value={ubicacionSeleccionada}
                               onChange={actualizarStateBusqueda}
                             >
+                              <option value="0">Todos</option>
                               {localidades.map(localidad => (
                                 <option value={localidad.ubicacion_id}>
                                   {localidad.ubicacion_nombre}
@@ -212,7 +213,7 @@ const Comercios = () => {
                               value={rubroSeleccionado}
                               onChange={actualizarStateBusqueda}
                             >
-                              <option>Selecciona una rubro</option>
+                              <option value="0">Todos</option>
                               {rubros.map(rubro => (
                                 <option value={rubro.rubro_id}>
                                   {rubro.rubro_nombre}
@@ -242,6 +243,7 @@ const Comercios = () => {
                           value={delivery}
                           onChange={actualizarStateBusqueda}
                         >
+                          <option value="2">Todos</option>
                           <option value="1">Si</option>
                           <option value="0">NO</option>
                         </select>
@@ -258,35 +260,40 @@ const Comercios = () => {
                 <div className="row">
                   <div className="col-md-12 m-b-4">
                     <div className="row">
-                      <div className="col-sm-12">cantidad registros</div>
+                      <div className="col-sm-12">{/*cantidad registros*/}</div>
                     </div>
                     <div className="row">
-                      <div className="col-sm-12">
-                        <div className="table-responsive">
-                          <table id="example" className="table table-bordered">
-                            <thead>
-                              <tr>
-                                <th>Nombre</th>
-                                <th>Dirección</th>
-                                <th>Delivery</th>
-                                <th>Telefono</th>
-                                <th>DeliveryCatamarca</th>
-                                <th>PedidosYa</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {comercios.length === 0
-                                ? "No hay Comercios"
-                                : comercios.map(comercio => (
-                                    <Comercio
-                                      key={comercio.attributes.id}
-                                      comercio={comercio}
-                                    />
-                                  ))}
-                            </tbody>
-                          </table>
+                      {comercios.length !== 0 ? (
+                        <div className="col-sm-12">
+                          <div className="table-responsive">
+                            <table
+                              id="example"
+                              className="table table-bordered"
+                            >
+                              <thead>
+                                <tr>
+                                  <th>Nombre</th>
+                                  <th>Dirección</th>
+                                  <th>Delivery</th>
+                                  <th>Telefono</th>
+                                  <th>DeliveryCatamarca</th>
+                                  <th>PedidosYa</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {comercios.length === 0
+                                  ? "No hay Comercios"
+                                  : comercios.map(comercio => (
+                                      <Comercio
+                                        key={comercio.attributes.id}
+                                        comercio={comercio}
+                                      />
+                                    ))}
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
-                      </div>
+                      ) : null}
                     </div>
                   </div>
                 </div>
