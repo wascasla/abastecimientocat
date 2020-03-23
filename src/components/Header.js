@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import ministerio from "../img/ministerio_industria.jpeg";
 
 const Header = () => {
   return (
@@ -13,15 +14,13 @@ const Header = () => {
                 to={`/`}
                 aria-label="Argentina.gob.ar Presidencia de la Nación"
               >
-                <h5>LISTADO DE COMERCIOS</h5>
+                <img
+                  className="image-responsive"
+                  alt="Argentina.gob.ar - Presidencia de la Nación"
+                  src={ministerio}
+                  height="60"
+                />
               </Link>
-              <a
-                href="https://mi.argentina.gob.ar/"
-                className="btn btn-login btn-link visible-xs"
-                aria-label="Ingresar a Mi Argentina"
-              >
-                <i className="icono-arg-mi-argentina"></i>
-              </a>
             </div>
             {/*formularo de busqueda y tabla
             <a

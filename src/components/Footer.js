@@ -1,4 +1,6 @@
 import React from "react";
+import ministerio from "../img/ministerio_industria.jpeg";
+import logoSecretaria from "../img/secretaria_modernizacion.jpeg";
 
 const Footer = () => {
   return (
@@ -11,13 +13,30 @@ const Footer = () => {
               href="#"
               aria-label="Argentina.gob.ar Presidencia de la Nación"
             >
-              <img
-                className="image-responsive"
-                alt="Argentina.gob.ar - Presidencia de la Nación"
-                src="img/logo_argentina_unida.svg"
-                height="25"
-              />
+              <img className="image-responsive" alt="" src="" height="150" />
             </a>
+            <img
+              className="image-responsive"
+              alt="Argentina.gob.ar - Presidencia de la Nación"
+              src={ministerio}
+              height="100"
+            />
+          </div>
+          <div className="col-sm-6"></div>
+          <div className="col-sm-6">
+            <a
+              className="navbar-brand"
+              href="#"
+              aria-label="Argentina.gob.ar Presidencia de la Nación"
+            >
+              <img className="image-responsive" alt="" src="" height="150" />
+            </a>
+            <img
+              className="image-responsive"
+              alt="Argentina.gob.ar - Presidencia de la Nación"
+              src={logoSecretaria}
+              height="100"
+            />
           </div>
         </div>
       </div>
